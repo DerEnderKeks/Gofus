@@ -1,0 +1,19 @@
+version: '3'
+services:
+  app:
+    build: .
+    ports:
+      - '3000:3000'
+    volumes:
+      - './data/config:/srv/gofus/config'
+    links:
+      - 'db'
+  db:
+    image: postgres:alpine
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: 'gofus'
+      POSTGRES_PASSWORD: 'gofus'
+    volumes:
+      - '/var/lib/postgresql/data'
