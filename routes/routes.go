@@ -4,10 +4,11 @@ import (
 	"github.com/Fisado/Gofus/routes/api"
 	"net/http"
 	"github.com/spf13/viper"
+	"github.com/abiosoft/river"
 	"github.com/Fisado/Gofus/log"
-	"github.com/nmaggioni/goat"
-	"github.com/Fisado/Gofus/middleware/auth"
-	auth2 "github.com/Fisado/Gofus/routes/auth"
+	"github.com/Fisado/Gofus/routes/auth"
+	"github.com/Fisado/Gofus/handler"
+	"github.com/Fisado/Gofus/routes/dashboard"
 )
 
 var (
@@ -15,14 +16,22 @@ var (
 )
 
 func Init() {
-	r := goat.New()
+	r := river.New()
 
-	r.Use(auth.Auth)
+	apiEndpoint := river.NewEndpoint()
+	api.Init(apiEndpoint, r)
+	r.Handle("/api", apiEndpoint)
 
-	api.Init(r.Subrouter("/api"))
+	authEndpoint := river.NewEndpoint()
+	auth.Init(authEndpoint)
+	r.Handle("/auth", authEndpoint)
 
-	r.Get("/oauth/auth", "oauth_auth", auth2.Auth)
-	r.Post("/oauth/token", "oauth_token", auth2.Token)
+	dashboardEndpoint := river.NewEndpoint()
+	dashboard.Init(dashboardEndpoint)
+	r.Handle("/dashboard", dashboardEndpoint)
+
+	r.NotFound(handler.NotFound) // This handles short urls like files and redirects too. Why? Because httprouter doesn't like named parameters when they could possibly override other routes.
+	r.NotAllowed(handler.MethodNotAllowed)
 
 	SRV = &http.Server{}
 	SRV.Addr = viper.GetString("http.address")

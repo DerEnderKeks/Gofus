@@ -5,4 +5,5 @@ type ApiKey struct {
 
 	Token string
 	Scope string
+	User  User
 }

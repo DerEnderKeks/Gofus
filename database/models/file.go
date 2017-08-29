@@ -4,7 +4,7 @@ type File struct {
 	UUIDModel
 
 	FileName          string
-	ShortName         string
+	ShortName         ShortName
 	FileSize          uint
 	MagicMimeType     string
 	ExtensionMimeType string

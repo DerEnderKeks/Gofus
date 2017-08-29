@@ -31,7 +31,7 @@ func WriteFile(w http.ResponseWriter, b []byte, mimeType, filename string) error
 	w.Header().Set("Content-Type", mimeType)
 
 	if checkDownload(mimeType) {
-		w.Header().Set("Content-Disposition", "attachment; filename=\"" + filename + "\"")
+		w.Header().Set("Content-Disposition", "attachment; filename=\""+filename+"\"")
 	}
 
 	writeWithStausCode(w, http.StatusOK, b)

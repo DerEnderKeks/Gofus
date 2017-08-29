@@ -1,13 +1,15 @@
 package v1
 
 import (
-	"github.com/nmaggioni/goat"
 	"github.com/Fisado/Gofus/response"
 	"net/http"
+	"github.com/abiosoft/river"
+	"regexp"
 )
 
-func Teapot(w http.ResponseWriter, r *http.Request, p goat.Params) {
-	html := `<html>
+func Teapot(c * river.Context) {
+	r, _ := regexp.Compile("\n\\s*")
+	html := r.ReplaceAllString(`<html>
 		<head>
 		<style>
 		body {
@@ -26,6 +28,6 @@ func Teapot(w http.ResponseWriter, r *http.Request, p goat.Params) {
 		<iframe style="animation: spin infinite 5s linear;" width="100%" height="100%" src="https://www.youtube.com/embed/8E6_PNxed5Y?autoplay=1&loop=1&modestbranding=1&showinfo=0&rel=0&disablekb=1&controls=0" frameborder="0" allowfullscreen></iframe>
 		</div>
 		</body>
-		</html>`
-	response.WriteHTMLWithStatus(w, http.StatusTeapot, html)
+		</html>`, "")
+	response.WriteHTMLWithStatus(c, http.StatusTeapot, html)
 }

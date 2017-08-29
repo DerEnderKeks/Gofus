@@ -2,11 +2,12 @@ package api
 
 import (
 	"github.com/Fisado/Gofus/routes/api/v1"
-	"github.com/nmaggioni/goat"
+	"github.com/abiosoft/river"
 )
 
-func Init(r *goat.Router) {
-	v1.Init(r.Subrouter("/v1"))
+func Init(e *river.Endpoint, r *river.River) {
+	v1Endpoint := river.NewEndpoint()
+	v1.Init(v1Endpoint)
 
-	r.Get("/", "", r.IndexHandler)
+	r.Handle("/api/v1", v1Endpoint)
 }
