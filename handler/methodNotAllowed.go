@@ -6,6 +6,6 @@ import (
 	"net/http"
 )
 
-func MethodNotAllowed(c * river.Context) {
+func MethodNotAllowed(c *river.Context) {
 	response.WriteError(c, http.StatusMethodNotAllowed, http.StatusText(http.StatusMethodNotAllowed))
 }

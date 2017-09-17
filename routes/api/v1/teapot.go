@@ -7,7 +7,7 @@ import (
 	"regexp"
 )
 
-func Teapot(c * river.Context) {
+func Teapot(c *river.Context) {
 	r, _ := regexp.Compile("\n\\s*")
 	html := r.ReplaceAllString(`<html>
 		<head>
